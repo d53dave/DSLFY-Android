@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 
 import net.d53dev.dslfy.android.BootstrapApplication;
 import net.d53dev.dslfy.android.R;
-import net.d53dev.dslfy.android.core.User;
+import net.d53dev.dslfy.android.model.User;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.squareup.picasso.Picasso;
 

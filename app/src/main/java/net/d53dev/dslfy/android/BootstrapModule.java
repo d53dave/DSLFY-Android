@@ -12,7 +12,7 @@ import net.d53dev.dslfy.android.core.PostFromAnyThreadBus;
 import net.d53dev.dslfy.android.core.RestAdapterRequestInterceptor;
 import net.d53dev.dslfy.android.core.RestErrorHandler;
 import net.d53dev.dslfy.android.core.TimerService;
-import net.d53dev.dslfy.android.core.UserAgentProvider;
+import net.d53dev.dslfy.android.model.UserAgentProvider;
 import net.d53dev.dslfy.android.ui.BootstrapTimerActivity;
 import net.d53dev.dslfy.android.ui.CheckInsListFragment;
 import net.d53dev.dslfy.android.ui.MainActivity;

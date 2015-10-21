@@ -6,11 +6,8 @@ import android.app.Activity;
 
 import net.d53dev.dslfy.android.authenticator.ApiKeyProvider;
 import net.d53dev.dslfy.android.core.BootstrapService;
-import net.d53dev.dslfy.android.core.UserAgentProvider;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 

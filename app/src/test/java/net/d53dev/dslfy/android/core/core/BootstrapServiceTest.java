@@ -9,8 +9,8 @@ import static org.mockito.Mockito.doReturn;
 import net.d53dev.dslfy.android.core.BootstrapService;
 import net.d53dev.dslfy.android.core.CheckIn;
 import net.d53dev.dslfy.android.core.News;
-import net.d53dev.dslfy.android.core.User;
-import net.d53dev.dslfy.android.core.UserAgentProvider;
+import net.d53dev.dslfy.android.model.User;
+import net.d53dev.dslfy.android.model.UserAgentProvider;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import java.io.BufferedReader;

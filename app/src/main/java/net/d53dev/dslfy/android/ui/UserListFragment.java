@@ -12,7 +12,7 @@ import net.d53dev.dslfy.android.BootstrapServiceProvider;
 import net.d53dev.dslfy.android.Injector;
 import net.d53dev.dslfy.android.R;
 import net.d53dev.dslfy.android.authenticator.LogoutService;
-import net.d53dev.dslfy.android.core.User;
+import net.d53dev.dslfy.android.model.User;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 
 import java.util.Collections;

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.d53dev.dslfy.android.R;
-import net.d53dev.dslfy.android.core.User;
+import net.d53dev.dslfy.android.model.User;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;

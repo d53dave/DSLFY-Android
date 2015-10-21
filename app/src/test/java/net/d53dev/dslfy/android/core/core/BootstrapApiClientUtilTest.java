@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import net.d53dev.dslfy.android.core.BootstrapService;
-import net.d53dev.dslfy.android.core.User;
+import net.d53dev.dslfy.android.model.User;
 
 import java.util.List;
 

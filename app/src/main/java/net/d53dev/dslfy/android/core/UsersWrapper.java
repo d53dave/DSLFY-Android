@@ -1,6 +1,6 @@
 package net.d53dev.dslfy.android.core;
 
-import com.google.gson.annotations.SerializedName;
+import net.d53dev.dslfy.android.model.User;
 
 import java.util.List;
 

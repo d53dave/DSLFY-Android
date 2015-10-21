@@ -1,6 +1,8 @@
-package net.d53dev.dslfy.android.core;
+package net.d53dev.dslfy.android.model;
 
 import android.text.TextUtils;
+
+import net.d53dev.dslfy.android.core.GravatarUtils;
 
 import java.io.Serializable;
 

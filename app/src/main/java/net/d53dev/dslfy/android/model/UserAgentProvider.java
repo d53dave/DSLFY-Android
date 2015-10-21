@@ -1,4 +1,4 @@
-package net.d53dev.dslfy.android.core;
+package net.d53dev.dslfy.android.model;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;

@@ -36,7 +36,7 @@ import net.d53dev.dslfy.android.R.layout;
 import net.d53dev.dslfy.android.R.string;
 import net.d53dev.dslfy.android.core.BootstrapService;
 import net.d53dev.dslfy.android.core.Constants;
-import net.d53dev.dslfy.android.core.User;
+import net.d53dev.dslfy.android.model.User;
 import net.d53dev.dslfy.android.events.UnAuthorizedErrorEvent;
 import net.d53dev.dslfy.android.ui.TextWatcherAdapter;
 import net.d53dev.dslfy.android.util.Ln;

@@ -139,11 +139,6 @@ and uses many great open-source libraries from the Android dev community:
   POJO's for use in the app.
 
 
-## Contributors
-Thank you to all the [contributors](http://www.github.net.d53dev.dslfy.android/net-d53dev-dslfy-android/contributors) on
-this project. Your help is much appreciated.
-
-
 ## Contributing
 
 Please fork this repository and contribute back using

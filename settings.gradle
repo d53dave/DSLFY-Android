@@ -1,2 +1,2 @@
 include ':app'
-// include ':integration-tests'
+include ':integration-tests'
