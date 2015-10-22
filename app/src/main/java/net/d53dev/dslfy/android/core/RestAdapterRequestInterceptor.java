@@ -1,6 +1,5 @@
 package net.d53dev.dslfy.android.core;
 
-
 import net.d53dev.dslfy.android.model.UserAgentProvider;
 
 import static net.d53dev.dslfy.android.core.Constants.Http.HEADER_PARSE_APP_ID;

@@ -1,6 +1,7 @@
 package net.d53dev.dslfy.android.core;
 
 import net.d53dev.dslfy.android.model.User;
+import java.util.List;
 
 import retrofit.http.GET;
 import retrofit.http.Query;
