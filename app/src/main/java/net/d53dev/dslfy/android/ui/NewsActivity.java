@@ -6,16 +6,16 @@ import android.widget.TextView;
 import net.d53dev.dslfy.android.R;
 import net.d53dev.dslfy.android.core.News;
 
-import butterknife.InjectView;
+import butterknife.Bind;
 
 import static net.d53dev.dslfy.android.core.Constants.Extra.NEWS_ITEM;
 
-public class NewsActivity extends BootstrapActivity {
+public class NewsActivity extends DSLFYActivity {
 
     private News newsItem;
 
-    @InjectView(R.id.tv_title) protected TextView title;
-    @InjectView(R.id.tv_content) protected TextView content;
+    @Bind(R.id.tv_title) protected TextView title;
+    @Bind(R.id.tv_content) protected TextView content;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

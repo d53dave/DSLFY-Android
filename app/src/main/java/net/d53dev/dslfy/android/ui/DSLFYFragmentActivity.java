@@ -1,20 +1,23 @@
 package net.d53dev.dslfy.android.ui;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import net.d53dev.dslfy.android.Injector;
+import net.d53dev.dslfy.android.util.Ln;
+
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
-import butterknife.Views;
+import butterknife.ButterKnife;
+
 
 /**
  * Base class for all Bootstrap Activities that need fragments.
  */
-public class BootstrapFragmentActivity extends ActionBarActivity {
+public class DSLFYFragmentActivity extends ActionBarActivity {
 
     @Inject
     protected Bus eventBus;
@@ -30,7 +33,7 @@ public class BootstrapFragmentActivity extends ActionBarActivity {
     public void setContentView(final int layoutResId) {
         super.setContentView(layoutResId);
 
-        Views.inject(this);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -44,4 +47,5 @@ public class BootstrapFragmentActivity extends ActionBarActivity {
         super.onPause();
         eventBus.unregister(this);
     }
+
 }

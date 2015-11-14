@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import net.d53dev.dslfy.android.Injector;
 
-import butterknife.Views;
+import butterknife.ButterKnife;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
@@ -15,7 +15,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 /**
  * Base activity for a Bootstrap activity which does not use fragments.
  */
-public abstract class BootstrapActivity extends ActionBarActivity {
+public abstract class DSLFYActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public abstract class BootstrapActivity extends ActionBarActivity {
         super.setContentView(layoutResId);
 
         // Used to inject views with the Butterknife library
-        Views.inject(this);
+        ButterKnife.bind(this);
     }
 
     @Override

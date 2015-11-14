@@ -5,24 +5,21 @@ import android.accounts.AccountsException;
 import android.app.Activity;
 
 import net.d53dev.dslfy.android.authenticator.ApiKeyProvider;
-import net.d53dev.dslfy.android.core.BootstrapService;
+import net.d53dev.dslfy.android.core.DSLFYService;
 
 import java.io.IOException;
-import net.d53dev.dslfy.android.core.UserAgentProvider;
-
-import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 
 /**
- * Provider for a {@link net.d53dev.dslfy.android.core.BootstrapService} instance
+ * Provider for a {@link DSLFYService} instance
  */
-public class BootstrapServiceProvider {
+public class DSLFYServiceProvider {
 
     private RestAdapter restAdapter;
     private ApiKeyProvider keyProvider;
 
-    public BootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider keyProvider) {
+    public DSLFYServiceProvider(RestAdapter restAdapter, ApiKeyProvider keyProvider) {
         this.restAdapter = restAdapter;
         this.keyProvider = keyProvider;
     }
@@ -36,12 +33,12 @@ public class BootstrapServiceProvider {
      * @throws IOException
      * @throws AccountsException
      */
-    public BootstrapService getService(final Activity activity)
+    public DSLFYService getService(final Activity activity)
             throws IOException, AccountsException {
         // The call to keyProvider.getAuthKey(...) is what initiates the login screen. Call that now.
         keyProvider.getAuthKey(activity);
 
         // TODO: See how that affects the bootstrap service.
-        return new BootstrapService(restAdapter);
+        return new DSLFYService(restAdapter);
     }
 }

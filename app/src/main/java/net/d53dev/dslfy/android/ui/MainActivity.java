@@ -3,28 +3,36 @@
 package net.d53dev.dslfy.android.ui;
 
 import android.accounts.OperationCanceledException;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
-import net.d53dev.dslfy.android.BootstrapServiceProvider;
+import net.d53dev.dslfy.android.DSLFYServiceProvider;
 import net.d53dev.dslfy.android.R;
-import net.d53dev.dslfy.android.core.BootstrapService;
+import net.d53dev.dslfy.android.authenticator.BootstrapAuthenticatorActivity;
+import net.d53dev.dslfy.android.authenticator.LogoutService;
+import net.d53dev.dslfy.android.core.DSLFYService;
+import net.d53dev.dslfy.android.core.ImageUtils;
 import net.d53dev.dslfy.android.events.NavItemSelectedEvent;
 import net.d53dev.dslfy.android.util.Ln;
 import net.d53dev.dslfy.android.util.SafeAsyncTask;
 import net.d53dev.dslfy.android.util.UIUtils;
+
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
-import butterknife.Views;
+import butterknife.ButterKnife;
 
 
 /**
@@ -33,9 +41,10 @@ import butterknife.Views;
  * If you need to remove the authentication from the application please see
  * {@link net.d53dev.dslfy.android.authenticator.ApiKeyProvider#getAuthKey(android.app.Activity)}
  */
-public class MainActivity extends BootstrapFragmentActivity {
+public class MainActivity extends DSLFYFragmentActivity implements GalleryFragment.Contract {
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected DSLFYServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     private boolean userHasAuthenticated = false;
 
@@ -44,6 +53,9 @@ public class MainActivity extends BootstrapFragmentActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private NavigationDrawerFragment navigationDrawerFragment;
+
+    public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
+    private static final int REQUEST_CAMERA = 5373;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -59,17 +71,19 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
 
         // View injection with Butterknife
-        Views.inject(this);
+        ButterKnife.bind(this);
 
         // Set up navigation drawer
         title = drawerTitle = getTitle();
 
+
         if(!isTablet()) {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//            drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,   )
             drawerToggle = new ActionBarDrawerToggle(
                     this,                    /* Host activity */
                     drawerLayout,           /* DrawerLayout object */
-                    R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
+//                    R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
                     R.string.navigation_drawer_open,    /* "open drawer" description */
                     R.string.navigation_drawer_close) { /* "close drawer" description */
 
@@ -85,6 +99,8 @@ public class MainActivity extends BootstrapFragmentActivity {
                     supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 }
             };
+
+            drawerToggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
 
             // Set the drawer toggle as the DrawerListener
             drawerLayout.setDrawerListener(drawerToggle);
@@ -144,11 +160,12 @@ public class MainActivity extends BootstrapFragmentActivity {
     }
 
     private void checkAuth() {
+
         new SafeAsyncTask<Boolean>() {
 
             @Override
             public Boolean call() throws Exception {
-                final BootstrapService svc = serviceProvider.getService(MainActivity.this);
+                final DSLFYService svc = serviceProvider.getService(MainActivity.this);
                 return svc != null;
             }
 
@@ -185,13 +202,28 @@ public class MainActivity extends BootstrapFragmentActivity {
             case R.id.timer:
                 navigateToTimer();
                 return true;
+            case R.id.logout:
+                doLogout();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void doLogout(){
+        logoutService.logout(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this,
+                        "You are now logged out.",
+                        Toast.LENGTH_SHORT).show();
+                checkAuth();
+            }
+        });
+    }
+
     private void navigateToTimer() {
-        final Intent i = new Intent(this, BootstrapTimerActivity.class);
+        final Intent i = new Intent(this, DSLFYTimerActivity.class);
         startActivity(i);
     }
 
@@ -207,8 +239,36 @@ public class MainActivity extends BootstrapFragmentActivity {
                 break;
             case 1:
                 // Timer
-                navigateToTimer();
+                Toast.makeText(this, "Opening Settings", Toast.LENGTH_SHORT).show();
                 break;
+            case 2:
+                doLogout();
+                break;
+        }
+    }
+
+    @Override
+    public void takePicture(Intent i) {
+        startActivityForResult(i, REQUEST_CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CAMERA) {
+            if (resultCode == Activity.RESULT_OK) {
+//                ddBitmap bitmap = data.getParcelableExtra("data");
+//                Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, 50, 50);
+
+                Intent showPictureIntent = new Intent(this, CameraResultActivity.class);
+
+                String path = data.getData().toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(GalleryFragment.IMAGE_PATH_IDENTIFIER, path);
+                showPictureIntent.putExtras(bundle);
+
+                startActivity(showPictureIntent);
+            }
         }
     }
 }

@@ -84,7 +84,26 @@
                 android:textColor="@color/text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/b_signin_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                android:id="@+id/b_signin_twitter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

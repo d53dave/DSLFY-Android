@@ -115,11 +115,11 @@ public class Strings {
     }
 
     public static boolean isEmpty(final Object o) {
-        return toString(o).trim().length() == 0;
+        return o != null && toString(o).trim().length() == 0;
     }
 
     public static boolean notEmpty(final Object o) {
-        return toString(o).trim().length() != 0;
+        return !isEmpty(o);
     }
 
     public static String md5(String s) {

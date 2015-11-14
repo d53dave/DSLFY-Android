@@ -10,7 +10,7 @@ import retrofit.RestAdapter;
 /**
  * Bootstrap API service
  */
-public class BootstrapService {
+public class DSLFYService {
 
     private RestAdapter restAdapter;
 
@@ -18,7 +18,7 @@ public class BootstrapService {
      * Create bootstrap service
      * Default CTOR
      */
-    public BootstrapService() {
+    public DSLFYService() {
     }
 
     /**
@@ -26,7 +26,7 @@ public class BootstrapService {
      *
      * @param restAdapter The RestAdapter that allows HTTP Communication.
      */
-    public BootstrapService(RestAdapter restAdapter) {
+    public DSLFYService(RestAdapter restAdapter) {
         this.restAdapter = restAdapter;
     }
 

@@ -3,7 +3,7 @@ package net.d53dev.dslfy.android.ui;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 
-import net.d53dev.dslfy.android.BootstrapApplication;
+import net.d53dev.dslfy.android.DSLFY;
 import net.d53dev.dslfy.android.R;
 import net.d53dev.dslfy.android.model.User;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
@@ -52,7 +52,7 @@ public class UserListAdapter extends SingleTypeAdapter<User> {
     @Override
     protected void update(final int position, final User user) {
 
-        Picasso.with(BootstrapApplication.getInstance())
+        Picasso.with(DSLFY.getInstance())
                 .load(user.getAvatarUrl())
                 .placeholder(R.drawable.gravatar_icon)
                 .into(imageView(0));

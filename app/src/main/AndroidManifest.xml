@@ -6,17 +6,20 @@
     android:versionName="1.1" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
-        android:name=".BootstrapApplication"
+        android:name=".DSLFY"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Bootstrap.Dark">
@@ -34,7 +37,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.BootstrapTimerActivity"
+        <activity android:name=".ui.CameraResultActivity"
+            android:label="@string/app_name"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:parentActivityName="net.d53dev.dslfy.android.ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.d53dev.dslfy.android.ui.MainActivity" />
+        </activity>
+
+        <activity android:name=".ui.DSLFYTimerActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:label="@string/app_name"
                   android:launchMode="singleTop"
@@ -73,6 +86,19 @@
         <activity android:name=".ui.NewsActivity" />
         <activity android:name=".ui.UserActivity" android:label="@string/app_name" />
 
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="027c6e2b274bffc8c8831e7b7e7a9ca8d6488c59" />
     </application>
 
 </manifest>

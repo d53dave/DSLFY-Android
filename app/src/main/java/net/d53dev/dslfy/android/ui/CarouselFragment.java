@@ -10,18 +10,19 @@ import android.view.ViewGroup;
 import net.d53dev.dslfy.android.R;
 import com.viewpagerindicator.TitlePageIndicator;
 
-import butterknife.InjectView;
-import butterknife.Views;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
  * Fragment which houses the View pager.
  */
 public class CarouselFragment extends Fragment {
 
-    @InjectView(R.id.tpi_header)
+    @Bind(R.id.tpi_header)
     protected TitlePageIndicator indicator;
 
-    @InjectView(R.id.vp_pages)
+    @Bind(R.id.vp_pages)
     protected ViewPager pager;
 
     @Override
@@ -33,9 +34,9 @@ public class CarouselFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Views.inject(this, getView());
+        ButterKnife.bind(this, getView());
 
-        pager.setAdapter(new BootstrapPagerAdapter(getResources(), getChildFragmentManager()));
+        pager.setAdapter(new DSLFYPagerAdapter(getResources(), getChildFragmentManager()));
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);
 

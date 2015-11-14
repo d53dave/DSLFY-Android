@@ -23,20 +23,21 @@ import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
+
+import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class BootstrapTimerActivity extends BootstrapFragmentActivity implements View.OnClickListener {
+public class DSLFYTimerActivity extends DSLFYFragmentActivity implements View.OnClickListener {
 
     @Inject Bus eventBus;
 
-    @InjectView(R.id.chronometer) protected TextView chronometer;
-    @InjectView(R.id.start) protected Button start;
-    @InjectView(R.id.stop) protected Button stop;
-    @InjectView(R.id.pause) protected Button pause;
-    @InjectView(R.id.resume) protected Button resume;
+    @Bind(R.id.chronometer) protected TextView chronometer;
+    @Bind(R.id.start) protected Button start;
+    @Bind(R.id.stop) protected Button stop;
+    @Bind(R.id.pause) protected Button pause;
+    @Bind(R.id.resume) protected Button resume;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

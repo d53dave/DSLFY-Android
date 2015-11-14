@@ -13,7 +13,7 @@ import net.d53dev.dslfy.android.R;
 /**
  * Pager adapter
  */
-public class BootstrapPagerAdapter extends FragmentPagerAdapter {
+public class DSLFYPagerAdapter extends FragmentPagerAdapter {
 
     private final Resources resources;
 
@@ -23,14 +23,14 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
      * @param resources
      * @param fragmentManager
      */
-    public BootstrapPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
+    public DSLFYPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -38,12 +38,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         final Fragment result;
         switch (position) {
             case 0:
-                result = new NewsListFragment();
+                result = new GalleryFragment();
                 break;
             case 1:
-                result = new UserListFragment();
-                break;
-            case 2:
                 result = new CheckInsListFragment();
                 break;
             default:
@@ -60,10 +57,8 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(final int position) {
         switch (position) {
             case 0:
-                return resources.getString(R.string.page_news);
+                return resources.getString(R.string.gallery_description);
             case 1:
-                return resources.getString(R.string.page_users);
-            case 2:
                 return resources.getString(R.string.page_checkins);
             default:
                 return null;

@@ -6,14 +6,15 @@ import android.content.Context;
 import net.d53dev.dslfy.android.authenticator.ApiKeyProvider;
 import net.d53dev.dslfy.android.authenticator.BootstrapAuthenticatorActivity;
 import net.d53dev.dslfy.android.authenticator.LogoutService;
-import net.d53dev.dslfy.android.core.BootstrapService;
+import net.d53dev.dslfy.android.core.DSLFYService;
 import net.d53dev.dslfy.android.core.Constants;
 import net.d53dev.dslfy.android.core.PostFromAnyThreadBus;
 import net.d53dev.dslfy.android.core.RestAdapterRequestInterceptor;
 import net.d53dev.dslfy.android.core.RestErrorHandler;
 import net.d53dev.dslfy.android.core.TimerService;
 import net.d53dev.dslfy.android.model.UserAgentProvider;
-import net.d53dev.dslfy.android.ui.BootstrapTimerActivity;
+import net.d53dev.dslfy.android.ui.CameraResultActivity;
+import net.d53dev.dslfy.android.ui.DSLFYTimerActivity;
 import net.d53dev.dslfy.android.ui.CheckInsListFragment;
 import net.d53dev.dslfy.android.ui.MainActivity;
 import net.d53dev.dslfy.android.ui.NavigationDrawerFragment;
@@ -40,20 +41,21 @@ import retrofit.converter.GsonConverter;
         complete = false,
 
         injects = {
-                BootstrapApplication.class,
+                DSLFY.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
-                BootstrapTimerActivity.class,
+                DSLFYTimerActivity.class,
                 CheckInsListFragment.class,
                 NavigationDrawerFragment.class,
                 NewsActivity.class,
                 NewsListFragment.class,
                 UserActivity.class,
                 UserListFragment.class,
-                TimerService.class
+                TimerService.class,
+                CameraResultActivity.class
         }
 )
-public class BootstrapModule {
+public class DSLFYModule {
 
     @Singleton
     @Provides
@@ -68,13 +70,13 @@ public class BootstrapModule {
     }
 
     @Provides
-    BootstrapService provideBootstrapService(RestAdapter restAdapter) {
-        return new BootstrapService(restAdapter);
+    DSLFYService provideBootstrapService(RestAdapter restAdapter) {
+        return new DSLFYService(restAdapter);
     }
 
     @Provides
-    BootstrapServiceProvider provideBootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
-        return new BootstrapServiceProvider(restAdapter, apiKeyProvider);
+    DSLFYServiceProvider provideBootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
+        return new DSLFYServiceProvider(restAdapter, apiKeyProvider);
     }
 
     @Provides

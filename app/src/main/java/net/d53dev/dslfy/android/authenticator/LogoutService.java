@@ -5,6 +5,9 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.content.Context;
 
+import com.facebook.login.LoginManager;
+import com.twitter.sdk.android.Twitter;
+
 import net.d53dev.dslfy.android.core.Constants;
 import net.d53dev.dslfy.android.util.Ln;
 import net.d53dev.dslfy.android.util.SafeAsyncTask;
@@ -63,6 +66,9 @@ public class LogoutService {
         @Override
         protected void onSuccess(final Boolean accountWasRemoved) throws Exception {
             super.onSuccess(accountWasRemoved);
+
+            LoginManager.getInstance().logOut();
+            Twitter.logOut();
 
             Ln.d("Logout succeeded: %s", accountWasRemoved);
             onSuccess.run();

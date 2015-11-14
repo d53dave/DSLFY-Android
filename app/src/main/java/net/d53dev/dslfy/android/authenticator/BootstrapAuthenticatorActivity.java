@@ -28,35 +28,57 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import net.d53dev.dslfy.android.Injector;
 import net.d53dev.dslfy.android.R;
 import net.d53dev.dslfy.android.R.id;
 import net.d53dev.dslfy.android.R.layout;
 import net.d53dev.dslfy.android.R.string;
-import net.d53dev.dslfy.android.core.BootstrapService;
+import net.d53dev.dslfy.android.core.DSLFYService;
 import net.d53dev.dslfy.android.core.Constants;
 import net.d53dev.dslfy.android.model.User;
 import net.d53dev.dslfy.android.events.UnAuthorizedErrorEvent;
 import net.d53dev.dslfy.android.ui.TextWatcherAdapter;
 import net.d53dev.dslfy.android.util.Ln;
 import net.d53dev.dslfy.android.util.SafeAsyncTask;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.internal.CallbackManagerImpl;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import butterknife.InjectView;
-import butterknife.Views;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.RetrofitError;
 
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
  */
-public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticatorActivity {
+public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticatorActivity{
 
     /**
      * PARAM_CONFIRM_CREDENTIALS
@@ -78,15 +100,24 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      */
     public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
+    private enum RequestType {
+        email, facebook, twitter;
+    }
+
+    private static RequestType requestType;
 
     private AccountManager accountManager;
+    private CallbackManager callbackManager;
 
-    @Inject BootstrapService bootstrapService;
+    @Inject
+    DSLFYService DSLFYService;
     @Inject Bus bus;
 
-    @InjectView(id.et_email) protected AutoCompleteTextView emailText;
-    @InjectView(id.et_password) protected EditText passwordText;
-    @InjectView(id.b_signin) protected Button signInButton;
+    @Bind(id.et_email) protected AutoCompleteTextView emailText;
+    @Bind(id.et_password) protected EditText passwordText;
+    @Bind(id.b_signin) protected Button signInButton;
+    @Bind(id.b_signin_facebook) protected LoginButton facebookSignInButton;
+    @Bind(id.b_signin_twitter) protected TwitterLoginButton twitterSignInButton;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -134,7 +165,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
         setContentView(layout.login_activity);
 
-        Views.inject(this);
+        ButterKnife.bind(this);
 
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));
@@ -169,6 +200,79 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
         final TextView signUpText = (TextView) findViewById(id.tv_signup);
         signUpText.setMovementMethod(LinkMovementMethod.getInstance());
         signUpText.setText(Html.fromHtml(getString(string.signup_link)));
+
+        requestType = RequestType.email;
+
+
+        //Facebook
+        callbackManager = CallbackManager.Factory.create();
+
+        facebookSignInButton.setReadPermissions(
+                Arrays.asList("public_profile", "email", "user_friends"));
+        facebookSignInButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                Ln.d("Loginsuccess " + loginResult.toString());
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                // Application code
+                                Ln.d("NewMeRequest finished!");
+                                Ln.d(object.toString());
+                                try {
+                                    email = "facebook+"+object.getString("id")+"@dslfy.internal.email.net";
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                finishLogin();
+                            }
+                        });
+                //add or exclude fields
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                Ln.d("Logincancel ");
+            }
+
+            @Override
+            public void onError(FacebookException exception)
+            {
+                Toast.makeText(BootstrapAuthenticatorActivity.this,
+                        "Facebook error: "+exception.getMessage(), Toast.LENGTH_SHORT).show();
+                onAuthenticationResult(false);
+            }
+        });
+
+        //Twitter
+
+        twitterSignInButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                // Do something with result, which provides a TwitterSession for making API calls
+
+                Ln.d("Twitter session username: "+result.data.getUserName());
+                Ln.d("Twitter session userid: "+result.data.getUserId());
+                Ln.d("Twitter session authtoken: "+result.data.getAuthToken().toString());
+                email = "twitter"+result.data.getUserId()+"@dslfy.internal.net";
+                finishLogin();
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Do something on failure
+                Ln.e("Twitter exception: " + exception.getMessage());
+                Toast.makeText(BootstrapAuthenticatorActivity.this,
+                        "Twitter error: "+exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private List<String> userEmailAccounts() {
@@ -259,7 +363,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 final String query = String.format("%s=%s&%s=%s",
                         PARAM_USERNAME, email, PARAM_PASSWORD, password);
 
-                User loginResponse = bootstrapService.authenticate(email, password);
+                User loginResponse = DSLFYService.authenticate(email, password);
                 token = loginResponse.getSessionToken();
 
                 return true;
@@ -316,6 +420,10 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      */
 
     protected void finishLogin() {
+        if(email == null){
+            Toast.makeText(this, "Login did not provide user data.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
         if (requestNewAccount) {
@@ -377,6 +485,27 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
                 Toaster.showLong(BootstrapAuthenticatorActivity.this,
                         string.message_auth_failed);
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Ln.d("onActivityResult for "+requestType);
+
+        //Facebook
+        if(requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()){
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        } else if(requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE) {
+            twitterSignInButton.onActivityResult(requestCode, resultCode, data);
+        } else {
+            Ln.w("Requestcode %d was not recognized.", requestCode);
+        }
+
+        if(CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()
+                == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE){
+            Ln.e("Twitter and Facebook requestCodes were the same. Undefined behaviour!");
         }
     }
 }

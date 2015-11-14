@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
-import net.d53dev.dslfy.android.core.BootstrapService;
+import net.d53dev.dslfy.android.core.DSLFYService;
 import net.d53dev.dslfy.android.core.CheckIn;
 import net.d53dev.dslfy.android.core.News;
 import net.d53dev.dslfy.android.model.User;
@@ -26,7 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
- * Unit tests of {@link net.d53dev.dslfy.android.core.BootstrapService}
+ * Unit tests of {@link DSLFYService}
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BootstrapServiceTest {
@@ -46,7 +46,7 @@ public class BootstrapServiceTest {
     @Mock
     private HttpRequest request;
 
-    private BootstrapService service;
+    private DSLFYService service;
 
     /**
      * Set up default mocks
@@ -55,7 +55,7 @@ public class BootstrapServiceTest {
      */
     @Before
     public void before() throws IOException {
-        service = new BootstrapService("foo", new UserAgentProvider()) {
+        service = new DSLFYService("foo", new UserAgentProvider()) {
             protected HttpRequest execute(HttpRequest request) throws IOException {
                 return BootstrapServiceTest.this.request;
             }

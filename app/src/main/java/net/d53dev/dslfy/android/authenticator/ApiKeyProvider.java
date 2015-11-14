@@ -8,9 +8,9 @@ import android.accounts.AccountsException;
 import android.app.Activity;
 import android.os.Bundle;
 
-import java.io.IOException;
+import net.d53dev.dslfy.android.core.DSLFYService;
 
-import javax.inject.Inject;
+import java.io.IOException;
 
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static net.d53dev.dslfy.android.core.Constants.Auth.AUTHTOKEN_TYPE;
@@ -39,7 +39,7 @@ public class ApiKeyProvider {
      *
      *
      * @return API key to be used for authorization with a
-     * {@link net.d53dev.dslfy.android.core.BootstrapService} instance
+     * {@link DSLFYService} instance
      * @throws AccountsException
      * @throws IOException
      */

@@ -13,7 +13,7 @@ import android.support.v4.app.NotificationCompat;
 
 import net.d53dev.dslfy.android.Injector;
 import net.d53dev.dslfy.android.R;
-import net.d53dev.dslfy.android.ui.BootstrapTimerActivity;
+import net.d53dev.dslfy.android.ui.DSLFYTimerActivity;
 import net.d53dev.dslfy.android.util.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
@@ -194,7 +194,7 @@ public class TimerService extends Service {
      * @return a new {@link Notification}
      */
     private Notification getNotification(String message) {
-        final Intent i = new Intent(this, BootstrapTimerActivity.class);
+        final Intent i = new Intent(this, DSLFYTimerActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, 0);
 

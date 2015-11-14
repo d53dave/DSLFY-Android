@@ -9,7 +9,7 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import net.d53dev.dslfy.android.BootstrapServiceProvider;
+import net.d53dev.dslfy.android.DSLFYServiceProvider;
 import net.d53dev.dslfy.android.Injector;
 import net.d53dev.dslfy.android.R;
 import net.d53dev.dslfy.android.authenticator.LogoutService;
@@ -23,7 +23,7 @@ import javax.inject.Inject;
 
 public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
-    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected DSLFYServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
     @Override

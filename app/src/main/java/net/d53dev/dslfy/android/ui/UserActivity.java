@@ -8,14 +8,14 @@ import net.d53dev.dslfy.android.R;
 import net.d53dev.dslfy.android.model.User;
 import com.squareup.picasso.Picasso;
 
-import butterknife.InjectView;
+import butterknife.Bind;
 
 import static net.d53dev.dslfy.android.core.Constants.Extra.USER;
 
-public class UserActivity extends BootstrapActivity {
+public class UserActivity extends DSLFYActivity {
 
-    @InjectView(R.id.iv_avatar) protected ImageView avatar;
-    @InjectView(R.id.tv_name) protected TextView name;
+    @Bind(R.id.iv_avatar) protected ImageView avatar;
+    @Bind(R.id.tv_name) protected TextView name;
 
     private User user;
 
