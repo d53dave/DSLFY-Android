@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <PreferenceCategory
+        android:title="@string/pref_header_notification"
+        android:key="pref_key_notifications_settings">
+        <CheckBoxPreference
+            android:key="pref_key_accept_notification"
+            android:summary="@string/pref_notification_checkbox"
+            android:title="@string/pref_notification_checkbox"
+            android:defaultValue="false" />
+        <net.d53dev.dslfy.android.preference.TimePreference
+            android:key="pref_key_notification_time"
+            android:title="Selfie Time"
+            android:defaultValue="12:00"
+            android:summary="Set your desired time for the reminder."
+            android:dependency="pref_key_accept_notification" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_mobiledata"
+        android:key="pref_key_mobile_data">
+        <CheckBoxPreference
+            android:key="pref_key_wifi_only"
+            android:summary="@string/pref_mobiledata_wifi_only"
+            android:title="@string/pref_mobiledata_wifi_only"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_diagnostics"
+        android:key="pref_key_diagnostics">
+        <CheckBoxPreference
+            android:key="pref_key_diagnostics_senddata"
+            android:summary="@string/pref_diagnostics_senddata"
+            android:title="@string/pref_diagnostics_senddata"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

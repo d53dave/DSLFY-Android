@@ -4,11 +4,14 @@ package net.d53dev.dslfy.android.ui;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,16 +22,20 @@ import android.widget.Toast;
 
 import net.d53dev.dslfy.android.DSLFYServiceProvider;
 import net.d53dev.dslfy.android.R;
-import net.d53dev.dslfy.android.authenticator.BootstrapAuthenticatorActivity;
 import net.d53dev.dslfy.android.authenticator.LogoutService;
 import net.d53dev.dslfy.android.core.DSLFYService;
-import net.d53dev.dslfy.android.core.ImageUtils;
+import net.d53dev.dslfy.android.events.AlarmBroadcastReceived;
 import net.d53dev.dslfy.android.events.NavItemSelectedEvent;
+import net.d53dev.dslfy.android.ui.camera.CameraResultActivity;
 import net.d53dev.dslfy.android.util.Ln;
 import net.d53dev.dslfy.android.util.SafeAsyncTask;
 import net.d53dev.dslfy.android.util.UIUtils;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.otto.Subscribe;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -119,6 +126,12 @@ public class MainActivity extends DSLFYFragmentActivity implements GalleryFragme
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
+        // Init default settings for ImageLoader
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getBaseContext()));
+
+        this.scheduleNotification(buildNotification("Keep up the good work! Good habits are " +
+                "formed through perseverance and thousands of selfies."));
+
         checkAuth();
 
     }
@@ -199,9 +212,6 @@ public class MainActivity extends DSLFYFragmentActivity implements GalleryFragme
             case android.R.id.home:
                 //menuDrawer.toggleMenu();
                 return true;
-            case R.id.timer:
-                navigateToTimer();
-                return true;
             case R.id.logout:
                 doLogout();
                 return true;
@@ -222,11 +232,6 @@ public class MainActivity extends DSLFYFragmentActivity implements GalleryFragme
         });
     }
 
-    private void navigateToTimer() {
-        final Intent i = new Intent(this, DSLFYTimerActivity.class);
-        startActivity(i);
-    }
-
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
 
@@ -240,6 +245,8 @@ public class MainActivity extends DSLFYFragmentActivity implements GalleryFragme
             case 1:
                 // Timer
                 Toast.makeText(this, "Opening Settings", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this, PrefActivity.class);
+                startActivity(i);
                 break;
             case 2:
                 doLogout();
@@ -270,5 +277,37 @@ public class MainActivity extends DSLFYFragmentActivity implements GalleryFragme
                 startActivity(showPictureIntent);
             }
         }
+    }
+
+    private void scheduleNotification(Notification notification) {
+
+        Intent notificationIntent = new Intent(this, AlarmBroadcastReceived.class);
+        notificationIntent.putExtra(AlarmBroadcastReceived.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(AlarmBroadcastReceived.NOTIFICATION, notification);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(this, 0, notificationIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //TODO: Get this from Preferences
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 13);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(
+                AlarmManager.RTC,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+                pendingIntent);
+    }
+
+    private Notification buildNotification(String content) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Did you take your daily selfie?");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.ic_launcher);
+        return builder.build();
     }
 }

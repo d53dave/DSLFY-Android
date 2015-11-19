@@ -59,7 +59,7 @@ public class DSLFYPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return resources.getString(R.string.gallery_description);
             case 1:
-                return resources.getString(R.string.page_checkins);
+                return resources.getString(R.string.friend_stream);
             default:
                 return null;
         }

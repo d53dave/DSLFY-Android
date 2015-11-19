@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static net.d53dev.dslfy.android.core.Constants.Auth.AUTHTOKEN_TYPE;
-import static net.d53dev.dslfy.android.core.Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE;
+import static net.d53dev.dslfy.android.core.Constants.Auth.DSLFY_ACCOUNT_TYPE;
 
 /**
  * Bridge class that obtains a API key for the currently configured account
@@ -45,7 +45,7 @@ public class ApiKeyProvider {
      */
     public String getAuthKey(final Activity activity) throws AccountsException, IOException {
         final AccountManagerFuture<Bundle> accountManagerFuture
-                = accountManager.getAuthTokenByFeatures(BOOTSTRAP_ACCOUNT_TYPE,
+                = accountManager.getAuthTokenByFeatures(DSLFY_ACCOUNT_TYPE,
                 AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
 
         return accountManagerFuture.getResult().getString(KEY_AUTHTOKEN);

@@ -49,7 +49,7 @@ public class LogoutService {
             final AccountManager accountManagerWithContext = AccountManager.get(taskContext);
             if (accountManagerWithContext != null) {
                 final Account[] accounts = accountManagerWithContext
-                        .getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+                        .getAccountsByType(Constants.Auth.DSLFY_ACCOUNT_TYPE);
                 if (accounts.length > 0) {
                     final AccountManagerFuture<Boolean> removeAccountFuture
                             = accountManagerWithContext.removeAccount(accounts[0], null, null);

@@ -8,7 +8,6 @@ import static org.mockito.Mockito.doReturn;
 
 import net.d53dev.dslfy.android.core.DSLFYService;
 import net.d53dev.dslfy.android.core.CheckIn;
-import net.d53dev.dslfy.android.core.News;
 import net.d53dev.dslfy.android.model.User;
 import net.d53dev.dslfy.android.model.UserAgentProvider;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -97,7 +96,7 @@ public class BootstrapServiceTest {
     @Test
     public void getReferrersEmptyResponse() throws IOException {
         doReturn(createReader("")).when(request).bufferedReader();
-        List<CheckIn> referrers = service.getCheckIns();
+        List<CheckIn> referrers = service.getImages();
         assertNotNull(referrers);
         assertTrue(referrers.isEmpty());
     }

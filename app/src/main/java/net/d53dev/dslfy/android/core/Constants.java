@@ -14,22 +14,22 @@ public final class Constants {
         /**
          * Account type id
          */
-        public static final String BOOTSTRAP_ACCOUNT_TYPE = "net.d53dev.dslfy.android";
+        public static final String DSLFY_ACCOUNT_TYPE = "net.d53dev.dslfy.android";
 
         /**
          * Account name
          */
-        public static final String BOOTSTRAP_ACCOUNT_NAME = "DSLFY";
+        public static final String DSLFY_ACCOUNT_NAME = "DSLFY";
 
         /**
          * Provider id
          */
-        public static final String BOOTSTRAP_PROVIDER_AUTHORITY = "net.d53dev.dslfy.android.sync";
+        public static final String DSLFY_PROVIDER_AUTHORITY = "net.d53dev.dslfy.android.sync";
 
         /**
          * Auth token type
          */
-        public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
+        public static final String AUTHTOKEN_TYPE = DSLFY_ACCOUNT_TYPE;
     }
 
     /**
@@ -43,34 +43,34 @@ public final class Constants {
         /**
          * Base URL for all requests
          */
-        public static final String URL_BASE = "https://api.parse.com";
+        public static final String URL_BASE = "https://52.29.147.35";
 
 
         /**
          * Authentication URL
          */
-        public static final String URL_AUTH_FRAG = "/1/login";
+        public static final String URL_AUTH_FRAG = "/api/v1/login";
         public static final String URL_AUTH = URL_BASE + URL_AUTH_FRAG;
 
         /**
-         * List Users URL
+         * Get user profile
          */
-        public static final String URL_USERS_FRAG =  "/1/users";
-        public static final String URL_USERS = URL_BASE + URL_USERS_FRAG;
+        public static final String URL_USER_FRAG =  "/api/v1/user/";
+        public static final String URL_USER = URL_BASE + URL_USER_FRAG;
 
 
         /**
-         * List News URL
+         * Get Friends Stream
          */
-        public static final String URL_NEWS_FRAG = "/1/classes/News";
-        public static final String URL_NEWS = URL_BASE + URL_NEWS_FRAG;
+        public static final String URL_FRIENDS_STREAM_FRAG = "/user/{userId}/friends/stream";
+        public static final String URL_FRIENDS_STREAM = URL_BASE + URL_FRIENDS_STREAM_FRAG;
 
 
         /**
-         * List Checkin's URL
+         * Upload image
          */
-        public static final String URL_CHECKINS_FRAG = "/1/classes/Locations";
-        public static final String URL_CHECKINS = URL_BASE + URL_CHECKINS_FRAG;
+        public static final String URL_UPLOAD_FRAG = "/user/{userId}/upload";
+        public static final String URL_UPLOAD = URL_BASE + URL_UPLOAD_FRAG;
 
         /**
          * PARAMS for auth
@@ -79,27 +79,17 @@ public final class Constants {
         public static final String PARAM_PASSWORD = "password";
 
 
-        public static final String PARSE_APP_ID = "zHb2bVia6kgilYRWWdmTiEJooYA17NnkBSUVsr4H";
-        public static final String PARSE_REST_API_KEY = "N2kCY1T3t3Jfhf9zpJ5MCURn3b25UpACILhnf5u9";
-        public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
-        public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
         public static final String CONTENT_TYPE_JSON = "application/json";
         public static final String USERNAME = "username";
         public static final String PASSWORD = "password";
-        public static final String SESSION_TOKEN = "sessionToken";
 
-
-    }
-
-
-    public static final class Extra {
-        private Extra() {}
-
-        public static final String NEWS_ITEM = "news_item";
-
-        public static final String USER = "user";
+        /**
+         * HEADERS
+         */
+        public static final String HEADER_API_TOKEN = "X-API-TOKEN";
 
     }
+
 
     public static final class Intent {
         private Intent() {}
@@ -110,14 +100,6 @@ public final class Constants {
         public static final String INTENT_PREFIX = "net.d53dev.dslfy.android.";
 
     }
-
-    public static class Notification {
-        private Notification() {
-        }
-
-        public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
-    }
-
 }
 
 

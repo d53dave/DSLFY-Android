@@ -65,7 +65,7 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
             public List<CheckIn> loadData() throws Exception {
                 try {
                     if (getActivity() != null) {
-                        return serviceProvider.getService(getActivity()).getCheckIns();
+                        return serviceProvider.getService(getActivity()).getImages();
                     } else {
                         return Collections.emptyList();
                     }
@@ -100,6 +100,6 @@ public class CheckInsListFragment extends ItemListFragment<CheckIn> {
 
     @Override
     protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_checkins;
+        return R.string.error_loading_friendstream;
     }
 }

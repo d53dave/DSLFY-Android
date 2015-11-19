@@ -38,7 +38,7 @@ public class CarouselFragment extends Fragment {
 
         pager.setAdapter(new DSLFYPagerAdapter(getResources(), getChildFragmentManager()));
         indicator.setViewPager(pager);
-        pager.setCurrentItem(1);
+        pager.setCurrentItem(0);
 
     }
 }

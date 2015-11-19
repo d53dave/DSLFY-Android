@@ -2,6 +2,7 @@ package net.d53dev.dslfy.android;
 
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.view.View;
 
 import net.d53dev.dslfy.android.authenticator.ApiKeyProvider;
 import net.d53dev.dslfy.android.authenticator.BootstrapAuthenticatorActivity;
@@ -11,17 +12,15 @@ import net.d53dev.dslfy.android.core.Constants;
 import net.d53dev.dslfy.android.core.PostFromAnyThreadBus;
 import net.d53dev.dslfy.android.core.RestAdapterRequestInterceptor;
 import net.d53dev.dslfy.android.core.RestErrorHandler;
-import net.d53dev.dslfy.android.core.TimerService;
 import net.d53dev.dslfy.android.model.UserAgentProvider;
-import net.d53dev.dslfy.android.ui.CameraResultActivity;
-import net.d53dev.dslfy.android.ui.DSLFYTimerActivity;
+import net.d53dev.dslfy.android.ui.PrefActivity;
+import net.d53dev.dslfy.android.ui.ViewSelfieActivity;
+import net.d53dev.dslfy.android.ui.camera.CameraResultActivity;
 import net.d53dev.dslfy.android.ui.CheckInsListFragment;
 import net.d53dev.dslfy.android.ui.MainActivity;
 import net.d53dev.dslfy.android.ui.NavigationDrawerFragment;
-import net.d53dev.dslfy.android.ui.NewsActivity;
-import net.d53dev.dslfy.android.ui.NewsListFragment;
 import net.d53dev.dslfy.android.ui.UserActivity;
-import net.d53dev.dslfy.android.ui.UserListFragment;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -44,15 +43,12 @@ import retrofit.converter.GsonConverter;
                 DSLFY.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
-                DSLFYTimerActivity.class,
                 CheckInsListFragment.class,
                 NavigationDrawerFragment.class,
-                NewsActivity.class,
-                NewsListFragment.class,
                 UserActivity.class,
-                UserListFragment.class,
-                TimerService.class,
-                CameraResultActivity.class
+                CameraResultActivity.class,
+                ViewSelfieActivity.class,
+                PrefActivity.class
         }
 )
 public class DSLFYModule {

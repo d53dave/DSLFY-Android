@@ -4,6 +4,7 @@ package net.d53dev.dslfy.android.core;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
@@ -201,6 +202,17 @@ public final class ImageUtils {
         clipped.recycle();
 
         return rounded;
+    }
+
+    public static Bitmap scaleBitmapAndKeepRatio(Bitmap bitmap,
+                                                 int preferredHeightInPixels,
+                                                 int preferredWidthInPixels) {
+        Matrix matrix = new Matrix();
+        matrix.setRectToRect(
+                new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                new RectF(0, 0, preferredWidthInPixels, preferredHeightInPixels),
+                Matrix.ScaleToFit.CENTER);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 }
 

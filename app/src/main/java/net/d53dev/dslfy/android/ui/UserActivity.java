@@ -10,7 +10,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 
-import static net.d53dev.dslfy.android.core.Constants.Extra.USER;
 
 public class UserActivity extends DSLFYActivity {
 
@@ -26,17 +25,11 @@ public class UserActivity extends DSLFYActivity {
         setContentView(R.layout.user_view);
 
         if (getIntent() != null && getIntent().getExtras() != null) {
-            user = (User) getIntent().getExtras().getSerializable(USER);
+            user = (User) getIntent().getExtras().getSerializable("dslfyuser");
         }
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Picasso.with(this).load(user.getAvatarUrl())
-                .placeholder(R.drawable.gravatar_icon)
-                .into(avatar);
-
-        name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
 
     }
 

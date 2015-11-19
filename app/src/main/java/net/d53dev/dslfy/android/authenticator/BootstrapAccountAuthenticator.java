@@ -88,7 +88,7 @@ class BootstrapAccountAuthenticator extends AbstractAccountAuthenticator {
 
         final Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
-        bundle.putString(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        bundle.putString(KEY_ACCOUNT_TYPE, Constants.Auth.DSLFY_ACCOUNT_TYPE);
         bundle.putString(KEY_AUTHTOKEN, authToken);
 
         return bundle;

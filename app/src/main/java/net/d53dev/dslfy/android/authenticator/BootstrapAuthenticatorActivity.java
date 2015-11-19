@@ -402,7 +402,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
      * @param result
      */
     protected void finishConfirmCredentials(final boolean result) {
-        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        final Account account = new Account(email, Constants.Auth.DSLFY_ACCOUNT_TYPE);
         accountManager.setPassword(account, password);
 
         final Intent intent = new Intent();
@@ -424,7 +424,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
             Toast.makeText(this, "Login did not provide user data.", Toast.LENGTH_SHORT).show();
             return;
         }
-        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        final Account account = new Account(email, Constants.Auth.DSLFY_ACCOUNT_TYPE);
 
         if (requestNewAccount) {
             accountManager.addAccountExplicitly(account, password, null);
@@ -436,7 +436,7 @@ public class BootstrapAuthenticatorActivity extends ActionBarAccountAuthenticato
 
         final Intent intent = new Intent();
         intent.putExtra(KEY_ACCOUNT_NAME, email);
-        intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.DSLFY_ACCOUNT_TYPE);
 
         if (authTokenType != null
                 && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {

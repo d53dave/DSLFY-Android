@@ -6,15 +6,16 @@
 
     <ImageView
         android:id="@+id/image_processing_imgageview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="top"
+        android:layout_weight="48"/>
+
+
+    <android.support.v17.leanback.widget.HorizontalGridView
+        android:id="@+id/image_processing_scrollview_items"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="9"/>
-
-
-    <HorizontalGridView
-        android:id="@+id/image_processing_scrollview_items"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="8" />
 
 </LinearLayout>

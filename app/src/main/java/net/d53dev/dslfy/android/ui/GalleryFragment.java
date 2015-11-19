@@ -16,6 +16,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 
 import net.d53dev.dslfy.android.DSLFY;
 import net.d53dev.dslfy.android.R;
+import net.d53dev.dslfy.android.ui.camera.CameraResultActivity;
 import net.d53dev.dslfy.android.util.Strings;
 
 import java.io.File;
@@ -45,19 +49,35 @@ import com.commonsware.cwac.cam2.CameraActivity;
  */
 public class GalleryFragment extends Fragment {
 
-    protected static final String IMAGE_PATH_IDENTIFIER = "dslfyCapturedImagePath";
+    public static final String IMAGE_PATH_IDENTIFIER = "dslfyCapturedImagePath";
 
     interface Contract {
         void takePicture(Intent i);
     }
 
     private static View view;
+    private static GalleryAdapter galleryAdapter;
+    private static GalleryFragment galleryFragment;
 
     private List<Integer> selectedViews = new ArrayList<>();
 
     @Bind(R.id.gallery_gridview) protected GridView imageGrid;
     @Bind(R.id.fab_gallery) protected FloatingActionButton floatingActionButton;
 
+    public static void forceUpdate(){
+        if(galleryAdapter != null) {
+            galleryAdapter.sortedFiles = null;
+            galleryAdapter.oldLength = 0;
+            galleryAdapter.notifyDataSetInvalidated();
+            galleryAdapter.notifyDataSetChanged();
+        }
+        if(galleryFragment != null && galleryFragment.imageGrid != null){
+            galleryFragment.imageGrid.invalidateViews();
+            galleryFragment.imageGrid.invalidate();
+            galleryAdapter = new GalleryAdapter(galleryFragment.getActivity());
+            galleryFragment.imageGrid.setAdapter(galleryAdapter);
+        }
+    }
 
     @Nullable
     @Override
@@ -68,6 +88,8 @@ public class GalleryFragment extends Fragment {
         }
         ButterKnife.bind(this, view);
 
+        setHasOptionsMenu(true);
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,13 +97,26 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        imageGrid.setAdapter(new GalleryAdapter(this.getActivity()));
+        galleryFragment = this;
+
+        galleryAdapter = new GalleryAdapter(this.getActivity());
+        imageGrid.setAdapter(galleryAdapter);
 
         imageGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(GalleryFragment.this.getActivity(), "tap " + position,
                         Toast.LENGTH_SHORT).show();
+
+                Intent showPictureIntent = new Intent(getActivity(), ViewSelfieActivity.class);
+
+                String path = parent.getItemAtPosition(position).toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(GalleryFragment.IMAGE_PATH_IDENTIFIER, path);
+                showPictureIntent.putExtras(bundle);
+
+                startActivity(showPictureIntent);
             }
         });
 
@@ -158,7 +193,7 @@ public class GalleryFragment extends Fragment {
             b.to(new File(getActivity().getExternalFilesDir(null), filename));
         }
 
-        if (prefs.getBoolean("mirrorPreview", false)) {
+        if (prefs.getBoolean("mirrorPreview", true)) {
             b.mirrorPreview();
         }
 
@@ -178,5 +213,22 @@ public class GalleryFragment extends Fragment {
         }
 
         ((Contract)getActivity()).takePicture(b.build());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.grid_menu, optionsMenu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_upload_image:
+                Toast.makeText(getActivity(), "UPLOAD", Toast.LENGTH_SHORT);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

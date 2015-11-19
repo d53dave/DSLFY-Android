@@ -34,12 +34,9 @@ public class DSLFYService {
         return getRestAdapter().create(UserService.class);
     }
 
-    private NewsService getNewsService() {
-        return getRestAdapter().create(NewsService.class);
-    }
 
-    private CheckInService getCheckInService() {
-        return getRestAdapter().create(CheckInService.class);
+    private FriendStreamService getFriendStreamService() {
+        return getRestAdapter().create(FriendStreamService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -47,24 +44,17 @@ public class DSLFYService {
     }
 
     /**
-     * Get all bootstrap News that exists on Parse.com
+     * Get current user
      */
-    public List<News> getNews() {
-        return getNewsService().getNews().getResults();
-    }
-
-    /**
-     * Get all bootstrap Users that exist on Parse.com
-     */
-    public List<User> getUsers() {
-        return getUserService().getUsers().getResults();
+    public User getUsers() {
+        return getUserService().getUser();
     }
 
     /**
      * Get all bootstrap Checkins that exists on Parse.com
      */
-    public List<CheckIn> getCheckIns() {
-       return getCheckInService().getCheckIns().getResults();
+    public List<CheckIn> getImages() {
+       return getFriendStreamService().getFriendStream().getResults();
     }
 
     public User authenticate(String email, String password) {
